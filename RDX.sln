@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{3947E667-4C90-4C3A-BEB9-7148D6FE0D7C}") = "RDX", "RDX\RDX.dproj", "{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}"
+EndProject
+Project("{3947E667-4C90-4C3A-BEB9-7148D6FE0D7C}") = "Test", "Test\Test.dproj", "{38DA70AB-B53F-47B0-8A94-1E360A5EA052}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Unittest|Any CPU = Unittest|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38DA70AB-B53F-47B0-8A94-1E360A5EA052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38DA70AB-B53F-47B0-8A94-1E360A5EA052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38DA70AB-B53F-47B0-8A94-1E360A5EA052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38DA70AB-B53F-47B0-8A94-1E360A5EA052}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38DA70AB-B53F-47B0-8A94-1E360A5EA052}.Unittest|Any CPU.ActiveCfg = Unittest|Any CPU
+		{38DA70AB-B53F-47B0-8A94-1E360A5EA052}.Unittest|Any CPU.Build.0 = Unittest|Any CPU
+		{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}.Unittest|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A33F8EE-ED0D-4D05-B30E-014E37CB97A4}.Unittest|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Test\Test.dproj
+	EndGlobalSection
+EndGlobal
