@@ -40,13 +40,18 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Unittest|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Unittest</OutputPath>
-    <LinkinThirdPartyLibraries>false</LinkinThirdPartyLibraries>
+    <LinkinThirdPartyLibraries>true</LinkinThirdPartyLibraries>
     <ObjectsDirectory>obj\Unittest</ObjectsDirectory>
     <DebugLevel>0</DebugLevel>
     <UnittestMode>true</UnittestMode>
-    <Externalconsole>true</Externalconsole>
     <Target>Executable</Target>
     <OutputName>Test</OutputName>
+    <Libs>
+      <Libs>
+        <Lib>../RDX/bin/Debug/libRDX.lib</Lib>
+      </Libs>
+    </Libs>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="test\main.d" />
