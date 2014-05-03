@@ -85,7 +85,11 @@ class Observer( TValue ) {
 		}
 	
 	Observer!TValue asObserver ( )
-		body { return null; }
+		body { 
+		
+			return new AnonymousObserver!TValue( &this.onNext, &this.onError, &this.onComplete );
+
+		}
 
 	Observer!TValue checked ( )
 		body { return null; }

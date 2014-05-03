@@ -299,5 +299,37 @@ version( unittest ){
 
 	}
 
+	//
+	// Create and observer from another observer
+	// 
+	unittest {
+
+		auto observer = new TestObserver( );
+		observer.asObserver( ).onNext( 42 );
+
+		assert( observer.hasOnNext == 42 );
+
+	}
+
+	unittest {
+
+		Throwable throwable = new Throwable( "Throw me!!" );
+
+		auto observer = new TestObserver( );
+		observer.asObserver( ).onError( throwable );
+
+		assert( throwable.opEquals( observer.hasOnError ) );
+
+	}
+
+	unittest {
+
+		auto observer = new TestObserver( );
+		observer.asObserver( ).onComplete( );
+
+		assert( observer.hasOnComplete );	
+
+	}
+
 }
 
