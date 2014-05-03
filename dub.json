@@ -1,0 +1,8 @@
+{
+	"name": "rdx",
+	"description": "A port of the .NET Reactive Extentions framework",
+	"copyright": "Copyright © 2014, Andre Steenveld",
+	"authors": ["Andre Steenveld"],
+	"dependencies": {
+	}
+}
