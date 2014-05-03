@@ -17,6 +17,14 @@ class Observer( TValue ) {
 				(  ) => handler( Notification!TValue.createOnCompleted( ) )
 			);
 			
+		}
+
+	static void delegate ( Notification!TValue ) toNotifier ( Observer!TValue observer )
+		in { assert( observer !is null ); }
+		body { 
+
+			return ( notifier ) => notifier.accept( observer );
+		
 		}	
 
 	static Observer!TValue create ( TValue ) ( void delegate( TValue ) onNext )
@@ -70,7 +78,11 @@ class Observer( TValue ) {
 	//Observer!TValue synchronise ( Observer!TValue observer, AsyncLock lock ){  }
 
 	void delegate( Notification!TValue ) toNotifier ( )
-		body { return null; }
+		body { 
+		
+			return Observer!TValue.toNotifier( this );
+
+		}
 	
 	Observer!TValue asObserver ( )
 		body { return null; }
