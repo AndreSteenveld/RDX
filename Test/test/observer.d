@@ -14,12 +14,6 @@ version( unittest ){
 	//
 	// Observer!* . toObserver tests
 	//
-	unittest {
-
-		std.exception.assertThrown!AssertError( Observer!int.toObserver( null ) );
-
-	}
-
 	unittest { 
 		
 		int i = 0;
@@ -67,18 +61,12 @@ version( unittest ){
 		public Throwable hasOnError;
 		public bool hasOnComplete;
 
-		override  void next( int value ) { this.hasOnNext = value; }
+		override void next( int value ) { this.hasOnNext = value; }
 	
-		override  void error( Throwable error ) { this.hasOnError = error; }
+		override void error( Throwable error ) { this.hasOnError = error; }
 		
-		override  void complete( ) { this.hasOnComplete = true; }
+		override void complete( ) { this.hasOnComplete = true; }
 		
-	}
-
-	unittest {
-
-		std.exception.assertThrown!AssertError( Observer!int.toNotifier( null ) );
-	
 	}
 	
 	unittest {
@@ -107,6 +95,207 @@ version( unittest ){
 		o.toNotifier( )( Notification!int.createOnCompleted( ) );
 
 		assert( o.hasOnComplete );
+
+	}
+
+	//
+	// Observer!* . create methods
+	//
+	unittest {
+		
+		bool next = false;
+
+		auto observer = Observer!int.create( delegate void ( int v ) {			
+			assert( v == 42 );
+			next = true;
+		});
+
+		observer.onNext( 42 );
+
+		assert( next );
+
+		observer.onComplete( );
+
+	}
+
+	unittest {
+
+		Throwable 
+			throwable  = new Throwable( "Our going to be thrown throwable" ),
+			comparable = Throwable.init;
+
+		bool next = false;
+
+		auto observer = Observer!int.create( delegate void ( int v ){ 
+			assert( v == 42 );
+			next = true;
+		});
+		
+		try {
+
+			observer.onError( throwable );
+
+			assert( false );
+	
+		} catch( Throwable thrown ){
+
+			comparable = thrown;
+
+		}
+
+		assert( throwable.opEquals( comparable ) );
+
+	}
+
+	unittest {
+
+		bool 
+			next     = false,
+			complete = false;
+
+		auto observer = Observer!int.create(
+			delegate void ( int v ){ assert( v == 42 ); next = true; },
+			delegate void ( ){ complete = true; }
+		);
+
+		observer.onNext( 42 );
+
+		assert( next && !complete );
+
+		observer.onComplete( );
+
+		assert( next && complete );		
+
+	}
+
+	unittest {
+
+		Throwable
+			throwable = new Throwable( "The thing we are going to throw around!" ),
+			comparable = Throwable.init;
+
+		bool
+			next     = false,
+			complete = false;
+
+		auto observer = Observer!int.create(
+			delegate void ( int v ){ assert( v == 42 ); next = true; },
+			delegate void ( ){ complete = true; }
+		);
+	
+		observer.onNext( 42 );
+
+		assert( next && !complete );
+
+		try {
+			
+			observer.onError( throwable );
+			assert( false );
+
+		} catch( Throwable thrown ){
+
+			comparable = thrown;
+
+		}
+
+		assert( throwable.opEquals( comparable ) );
+		assert( next && !complete );
+
+	}
+	
+	unittest {
+
+		Throwable throwable = new Throwable( "Throwy thingy!" );
+
+		bool
+			next  = false,
+			error = false;
+		
+		auto observer = Observer!int.create(
+			delegate void ( int v ){ assert( v == 42 ); next = true; },
+			delegate void ( Throwable t ){ assert( throwable.opEquals( t ) ); error = true; }
+		);
+		
+		observer.onNext( 42 );
+
+		assert( next && !error );
+
+		observer.onError( throwable );
+
+		assert( next && error );
+
+	}
+
+	unittest {
+
+		Throwable throwable = new Throwable( "Unlike the others this one will never see action" );
+
+		bool
+			next  = false,
+			error = false;
+	
+		auto observer = Observer!int.create(
+			delegate void ( int v ){ assert( v == 42 ); next = true; },
+			delegate void ( Throwable t ){ assert( throwable.opEquals( t ) ); error = true; }
+		);
+				
+		observer.onNext( 42 );
+		
+		assert( next && !error );
+		
+		observer.onComplete( );
+		
+		assert( next && !error );
+
+	}
+
+	unittest {
+
+		Throwable throwable = new Throwable( "This one won't see any action either" );
+
+		bool
+			next     = false,
+			error    = false,
+			complete = false;
+
+		auto observer = Observer!int.create(
+			delegate void ( int v ){ assert( v == 42 ); next = true; },
+			delegate void ( Throwable t ){ assert( throwable.opEquals( t ) ); error = true; },
+			delegate void ( ){ complete = true; }
+		);
+
+		observer.onNext( 42 );
+
+		assert( next && !error && !complete );
+
+		observer.onComplete( );
+
+		assert( next && !error && complete );
+
+	}
+
+	unittest {
+
+		Throwable throwable = new Throwable( "This one won't see any action either" );
+		
+		bool
+			next     = false,
+			error    = false,
+			complete = false;
+		
+		auto observer = Observer!int.create(
+			delegate void ( int v ){ assert( v == 42 ); next = true; },
+			delegate void ( Throwable t ){ assert( throwable.opEquals( t ) ); error = true; },
+			delegate void ( ){ complete = true; }
+		);
+
+		observer.onNext( 42 );
+
+		assert( next && !error && !complete );
+
+		observer.onError( throwable );
+
+		assert( next && error && !complete );
 
 	}
 
