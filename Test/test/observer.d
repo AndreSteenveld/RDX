@@ -10,6 +10,8 @@ version( unittest ){
 	import rdx.Observer;
 	import rdx.Notification;
 	import rdx.NotificationKind;
+
+	import rdx.utilities : InvalidOperationException;
 	
 	//
 	// Observer!* . toObserver tests
@@ -330,6 +332,37 @@ version( unittest ){
 		assert( observer.hasOnComplete );	
 
 	}
+
+	//
+	// Re-entry of an Observer
+	//
+	unittest {
+
+		int
+			next     = 0,
+			complete = 0;
+
+		auto observer = Observer!int.create(
+			delegate void( int v ){ next++; },
+			delegate void( Throwable t ){ assert( false ); },
+			delegate void( ){ complete++; }
+		);
+
+		observer.onNext( 1 );
+		observer.onNext( 2 );
+
+		observer.onComplete( );
+
+		assertThrown!InvalidOperationException( observer.onComplete( ) );
+		assertThrown!InvalidOperationException( observer.onError( new Throwable( "blerch!" ) ) );
+
+		assert( next == 2 );
+		assert( complete == 1 );
+
+	}
+
+	
+
 
 }
 

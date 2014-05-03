@@ -5,6 +5,8 @@ import rdx.AnonymousObserver;
 import rdx.Notification;
 import rdx.concurrency.Schedular;
 
+import rdx.utilities : InvalidOperationException;
+
 class Observer( TValue ) {
 
 	static Observer!TValue toObserver ( void delegate( Notification!TValue ) handler )
@@ -106,6 +108,10 @@ class Observer( TValue ) {
 			this._isStopped = true;
 			this.complete( );
 
+		} else {
+
+			throw new InvalidOperationException( "Observer#onComplete: Re-enterance" );
+
 		}
 
 	}
@@ -115,6 +121,8 @@ class Observer( TValue ) {
 		
 		if( !this.isStopped ) 
 			this.next( value );
+		else 
+			throw new InvalidOperationException( "Observer#onNext: Re-enterance" );
 
 	}	
 
@@ -128,6 +136,10 @@ class Observer( TValue ) {
 				this._isStopped = true;
 				this.error( error );
 				
+			} else {
+
+				throw new InvalidOperationException( "Observer#onError: Re-enterance" );
+
 			}
 			
 		}
