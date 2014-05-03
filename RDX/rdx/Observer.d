@@ -57,7 +57,7 @@ class Observer( TValue ) {
 
 		}
 	
-	static Observer!TValue create ( TValue ) ( void delegate( TValue ) onNext, void delegate( ErroThrowabler ) onError, void delegate( ) onComplete )
+	static Observer!TValue create ( TValue ) ( void delegate( TValue ) onNext, void delegate( Throwable ) onError, void delegate( ) onComplete )
 		in {
 			assert( onNext != null );
 			assert( onError != null );
